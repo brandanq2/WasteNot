@@ -1,0 +1,15 @@
+## Interface: 16001
+## AllowLoadGameType: forever
+## ExcludeLoadGameType: standard, classic
+## Title: WasteNot
+## Notes: Shows which of your known Cooking recipes use an item, right in its tooltip.
+## Author: brandanq2
+## Version: @project-version@
+## SavedVariables: WasteNotDB
+## SavedVariablesPerCharacter: WasteNotCharDB
+## X-Website: https://github.com/brandanq2/WasteNot
+
+Core.lua
+Info.lua
+Scanner.lua
+Tooltip.lua
