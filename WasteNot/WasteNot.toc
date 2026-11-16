@@ -8,6 +8,7 @@
 ## SavedVariables: WasteNotDB
 ## SavedVariablesPerCharacter: WasteNotCharDB
 ## X-Website: https://github.com/brandanq2/WasteNot
+## X-Curse-Project-ID: 1810419
 
 Core.lua
 Info.lua
