@@ -12,6 +12,12 @@ local HAVE_COLOR = "ff40bf40"
 local MISSING_COLOR = "ffff5050"
 local INDENT = "      "
 
+-- Brand header: cream "Waste" + gold "Not", with a short green rule underneath.
+local HEADER = "|cfff1e4c3Waste|r|cffd9a441Not|r"
+-- |Tpath:height:width:offsetX:offsetY:texW:texH:left:right:top:bottom:r:g:b|t
+local DIVIDER = "|TInterface\\Buttons\\WHITE8X8:2:28:0:4:8:8:0:8:0:8:107:171:91|t"
+local LABEL_R, LABEL_G, LABEL_B = 0.72, 0.68, 0.58
+
 local function recipeLine(recipe, recipeID)
 	local icon = recipe.icon or ns.ItemIcon(recipe.outputItemID)
 	local left = (icon and ("|T%s:0|t "):format(icon) or "") ..
@@ -54,12 +60,8 @@ local function craftableCount(recipe)
 end
 
 -- Hovering a food you can cook: show its ingredients.
-local function addMadeByLines(tooltip, itemID)
-	local recipeIDs = ns.madeBy[itemID]
-	if not recipeIDs then return end
-
-	tooltip:AddLine(" ")
-	tooltip:AddDoubleLine("Cooked from", "WasteNot", 0.5, 0.75, 0.37, 0.45, 0.45, 0.45)
+local function addCookedFrom(tooltip, recipeIDs)
+	tooltip:AddLine("Cooked from", LABEL_R, LABEL_G, LABEL_B)
 	for _, recipeID in ipairs(recipeIDs) do
 		local recipe = WasteNotCharDB.recipes[recipeID]
 		if #recipeIDs > 1 then
@@ -76,18 +78,9 @@ local function addMadeByLines(tooltip, itemID)
 	end
 end
 
-local function addLines(tooltip, itemID)
-	if not WasteNotDB or not WasteNotDB.enabled or not itemID then return end
-	if issecretvalue and issecretvalue(itemID) then return end
-
-	addMadeByLines(tooltip, itemID)
-
-	local recipeIDs = ns.usedIn[itemID]
-	if not recipeIDs then return end
-
-	tooltip:AddLine(" ")
-	tooltip:AddDoubleLine("Cooking recipes that use this", "WasteNot", 0.5, 0.75, 0.37, 0.45, 0.45, 0.45)
-
+-- Hovering an ingredient: show the recipes that use it.
+local function addUsedIn(tooltip, itemID, recipeIDs)
+	tooltip:AddLine("Used in", LABEL_R, LABEL_G, LABEL_B)
 	local maxLines = WasteNotDB.maxLines or 6
 	for i, recipeID in ipairs(recipeIDs) do
 		if i > maxLines then
@@ -104,6 +97,21 @@ local function addLines(tooltip, itemID)
 			end
 		end
 	end
+end
+
+local function addLines(tooltip, itemID)
+	if not WasteNotDB or not WasteNotDB.enabled or not itemID then return end
+	if issecretvalue and issecretvalue(itemID) then return end
+
+	local madeBy = ns.madeBy[itemID]
+	local usedIn = ns.usedIn[itemID]
+	if not madeBy and not usedIn then return end
+
+	tooltip:AddLine(" ")
+	tooltip:AddLine(HEADER)
+	tooltip:AddLine(DIVIDER)
+	if madeBy then addCookedFrom(tooltip, madeBy) end
+	if usedIn then addUsedIn(tooltip, itemID, usedIn) end
 end
 
 if TooltipDataProcessor and Enum.TooltipDataType then

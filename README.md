@@ -5,7 +5,9 @@ A World of Warcraft: Forever addon that tells you, right in an item's tooltip, w
 Hovering an ingredient:
 
 ```
-Cooking recipes that use this                 WasteNot
+WasteNot
+───
+Used in
 [icon] Crocolisk Gumbo                 530 HP · +5 Agi
       Tender Crocolisk Meat 20/1
       Hot Spices 0/1
@@ -14,7 +16,9 @@ Cooking recipes that use this                 WasteNot
 Hovering a food you know how to cook:
 
 ```
-Cooked from                                   WasteNot
+WasteNot
+───
+Cooked from
       Tender Crocolisk Meat 20/1            Can make 3
       Hot Spices 3/1
 ```
